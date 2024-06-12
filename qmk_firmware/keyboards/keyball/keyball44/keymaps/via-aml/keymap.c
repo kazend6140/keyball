@@ -18,6 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
+#ifdef LAYER_LED_ENABLE
+ #include "layer_led.c"
+#endif
+
 #include "quantum.h"
 
 // clang-format off
@@ -56,6 +60,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 layer_state_t layer_state_set_user(layer_state_t state) {
     // Auto enable scroll mode when the highest layer is 3
     keyball_set_scroll_mode(get_highest_layer(state) == 3);
+	
+	#ifdef LAYER_LED_ENABLE
+	change_layer_led_color(state);
+	#endif
     return state;
 }
 
@@ -67,5 +75,12 @@ void oledkit_render_info_user(void) {
     keyball_oled_render_keyinfo();
     keyball_oled_render_ballinfo();
     keyball_oled_render_layerinfo();
+}
+#endif
+
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+void pointing_device_init_user(void) {
+	set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
+    set_auto_mouse_enable(true);
 }
 #endif
