@@ -30,9 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // keymap for default (VIA)
   [0] = LAYOUT_universal(
-    _______  , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     , _______   ,
+    _______  , KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                                        KC_Y     , KC_U     , KC_I     , KC_O     , KC_P        , _______   ,
     _______  , KC_A     , KC_S     , LT(3,KC_D),KC_F     , KC_G     ,                                        KC_H     , KC_J     , KC_K     , KC_L     , LT(3,KC_ENT), _______  ,
-    _______  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , KC_COMM  , KC_DOT   , KC_SLSH  , _______  ,
+    _______  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_N     , KC_M     , KC_COMM  , KC_DOT   , KC_SLSH     , _______  ,
               KC_LGUI,   KC_LALT,         KC_LCTL, LSFT_T(KC_TAB), KC_BSPC,                    LT(2,KC_ESC), LT(1,KC_SPC), _______ , _______ , KC_PSCR
   ),
 
@@ -51,10 +51,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [3] = LAYOUT_universal(
-    _______  , _______  , _______  , _______  , _______  , _______ ,                                         _______  , _______  , KC_PGUP, KC_HOME , _______ , _______ ,
+    _______  , _______  , _______  , _______  , _______  , _______ ,                                         TG(6)    , _______  , KC_PGUP, KC_HOME , _______ , _______ ,
     _______  , _______  , _______  , _______  , _______  , _______ ,                                         KC_LEFT  , KC_DOWN  , KC_UP  , KC_RGHT , _______ , _______ ,
     _______  , _______  , _______  , _______  , _______  , _______ ,                                         _______  , _______  , KC_PGDN, KC_END  , _______ , _______ ,
-                  _______  , _______  , _______  ,        _______  , _______  ,                   _______  , TG(6) , _______       , _______  , _______
+                  _______  , _______  , _______  ,        _______  , _______  ,                   _______  , _______  , _______       , _______  , _______
   ),
   
   [4] = LAYOUT_universal(
@@ -65,17 +65,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   
   [5] = LAYOUT_universal(
-    _______  , AML_TO   , AML_I50  , AML_D50  , _______  , _______  ,                                        RGB_M_P  , RGB_M_B  , RGB_M_R  , RGB_M_SW , RGB_M_SN , RGB_M_K  ,
-    _______  , RGB_HUI  , RGB_SAI  , RGB_VAI  , _______  , SCRL_DVI ,                                        RGB_M_X  , RGB_M_G  , RGB_M_T  , RGB_M_TW , _______  , _______  ,
-    _______ , RGB_HUD  , RGB_SAD  , RGB_VAD  , _______  , SCRL_DVD ,                                         CPI_D1K  , CPI_D100 , CPI_I100 , CPI_I1K  , _______  , KBC_SAVE ,
-                  QK_BOOT  , KBC_RST  , _______  ,        _______  , _______  ,                   _______  , _______  , _______       , KBC_RST  , QK_BOOT
+    _______  , _______  , _______  , _______  , _______  , _______  ,                                        _______  , _______  , _______  , _______ , _______ , _______  ,
+    _______  , RGB_HUI  , RGB_SAI  , RGB_VAI  , _______  , _______  ,                                        _______  , _______  , _______  , _______ , _______ , _______  ,
+    _______  , RGB_HUD  , RGB_SAD  , RGB_VAD  , _______  , _______  ,                                        _______  , _______  , _______  , _______ , TG(5)   , _______ ,
+                  QK_BOOT  , _______
+  , _______  ,        _______  , _______  ,                   _______  , _______   , _______       , _______  , QK_RBT
   ),
   
   [6] = LAYOUT_universal(
     _______  , KBC_SAVE  , CPI_I100  , CPI_D100  , CPI_I1K  , CPI_D1K ,                                      SCRL_TO  , SCRL_MO  , SCRL_DVI , SCRL_DVD , AML_TO   , _______  ,
-    _______  , _______  , _______  , _______  , _______  , _______ ,                                         _______  , KC_BTN1  , SCRL_MO  , KC_BTN2  , _______  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , _______ ,                                         _______  , KC_BTN4  , KC_BTN3  , KC_BTN5  , _______  , _______  ,
-                  _______  , _______  , _______  ,        _______  , _______  ,                   _______  , TG(6)  , _______       , _______  , _______
+    _______  , AML_I50  , AML_D50  , _______  , _______  , _______ ,                                         _______  , KC_BTN1  , SCRL_MO  , KC_BTN2  , TG(6)    , _______  ,
+    _______  , _______  , _______  , _______  , _______  , _______ ,                                         _______  , KC_BTN4  , KC_BTN3  , KC_BTN5  , TG(5)    , _______  ,
+                  _______  , _______  , _______  ,        _______  , _______  ,                   _______  , _______  , _______       , _______  , _______
   ),
 };
 // clang-format on
@@ -105,5 +106,6 @@ void oledkit_render_info_user(void) {
 void pointing_device_init_user(void) {
 	set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
     set_auto_mouse_enable(true);
+	rgblight_sethsv(HSV_OFF);
 }
 #endif

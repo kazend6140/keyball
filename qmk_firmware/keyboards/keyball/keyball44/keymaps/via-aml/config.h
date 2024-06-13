@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 7
 #define LAYER_LED_ENABLE
+#define RGBLIGHT_ANIMATIONS
+#define RGBLIGHT_LAYERS
 
 #define TAP_CODE_DELAY 5
 
