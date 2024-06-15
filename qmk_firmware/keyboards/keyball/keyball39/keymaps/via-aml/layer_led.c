@@ -20,6 +20,8 @@ void change_layer_led_color(uint8_t layer_no) {
 		    rgblight_sethsv(HSV_MAGENTA);
             break;
 		case  32:   // Layer 5
+		case  64:   // Layer 6
+		case  96:   // Layer 5&6
 		    rgblight_sethsv(HSV_CYAN);
             break;
 		default:
