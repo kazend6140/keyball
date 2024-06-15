@@ -14,13 +14,12 @@ void change_layer_led_color(uint8_t layer_no) {
 		case   2:   // Layer 1
 		case   4:   // Layer 2
 		case   8:   // Layer 3	
-		case  16:   // Layer 4
 		rgblight_sethsv(HSV_OFF);
             break;
-		case  32:   // Layer 5
+		case  16:   // Layer 4
 		    rgblight_sethsv(HSV_MAGENTA);
             break;
-		case  64:   // Layer 6
+		case  32:   // Layer 5
 		    rgblight_sethsv(HSV_CYAN);
             break;
 		default:
