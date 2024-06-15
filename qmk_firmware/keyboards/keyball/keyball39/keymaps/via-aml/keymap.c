@@ -18,11 +18,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
-#ifdef LAYER_LED_ENABLE
- #include "layer_led.c"
-#endif
-
 #include "quantum.h"
+
+const rgblight_segment_t PROGMEM my_layer4_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {4, 9, HSV_MAGENTA}
+);
+const rgblight_segment_t PROGMEM my_layer5_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {4, 9, HSV_CYAN}
+);
+const rgblight_segment_t PROGMEM my_layer6_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {4, 9, HSV_WHITE}
+);
+// Now define the array of layers. Later layers take precedence
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_layer4_layer,    // Overrides caps lock layer
+    my_layer5_layer,    // Overrides caps lock layer
+    my_layer6_layer     // Overrides other layers
+);
 
 // clang-format off
 // refs: https://docs.qmk.fm/keycodes
@@ -31,8 +43,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // keymap for default (VIA)
   [0] = LAYOUT_universal(
     KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                            KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     ,
-    KC_A     , KC_S     , LT(3,KC_D),KC_F     , KC_G     ,                            KC_H     , KC_J     , CTL_T(KC_K), KC_L     , LT(3,KC_ENT) ,
-    KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                            KC_N     , KC_M     , KC_COMM  , KC_DOT   , KC_SLSH  ,
+    KC_A     , KC_S     , LT(3,KC_D),KC_F     , KC_G     ,                            KC_H     , KC_J     , KC_K     , KC_L     , LT(3,KC_ENT) ,
+    KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                            KC_N     , KC_M     , CTL_T(KC_COMM)  , KC_DOT   , KC_SLSH  ,
     KC_LALT  , KC_PSCR  , TG(4)    , KC_LGUI  , LSFT_T(KC_TAB), KC_BSPC,   LT(2,KC_ESC),LT(1,KC_SPC), _______ , _______ , _______  , TG(5)
   ),
 
@@ -62,32 +74,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KBC_SAVE , CPI_I100 , CPI_D100 , CPI_I1K  , CPI_D1K ,                             SCRL_TO  , SCRL_MO  , SCRL_DVI , SCRL_DVD , AML_TO ,
     AML_I50  , AML_D50  , _______  , _______  , _______  ,                            RGB_VAI  , RGB_TOG  , _______  , _______ , _______ ,
     _______  , _______  , _______  , _______  , _______  ,                            RGB_VAD  , _______  , _______  , _______ , _______ ,
-    QK_RBT   , _______  , TG(4)    , _______  , _______  , _______ ,       TO(0)    , _______  , _______  , _______  , _______ , _______
+    QK_BOOT  , QK_RBT   , TG(4)    , _______  , _______  , _______ ,       TO(0)    , _______  , _______  , _______  , _______ , _______
   ),
   
   [5] = LAYOUT_universal(
     _______  , _______  , _______  , _______  , _______ ,                             _______  , _______  , KC_BTN3  , _______ , _______ ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN1  , _______  , KC_BTN2 , KC_ENT  ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN4  , SCRL_MO  , KC_BTN5 , KC_BSPC ,
+    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN1  , SCRL_MO  , KC_BTN2 , KC_ENT  ,
+    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN4  , _______  , KC_BTN5 , KC_BSPC ,
     _______  , _______  , _______  , _______  , _______ , _______  ,       TO(0)    , _______  , _______  , _______  , _______ , TG(5)
   ),
   
   [6] = LAYOUT_universal(
     _______  , _______  , _______  , _______  , _______ ,                             _______  , _______  , KC_BTN3  , _______ , _______ ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN1  , _______  , KC_BTN2 , KC_ENT  ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN4  , SCRL_MO  , KC_BTN5 , KC_BSPC ,
+    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN1  , SCRL_MO  , KC_BTN2 , KC_ENT  ,
+    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN4  , _______  , KC_BTN5 , KC_BSPC ,
     _______  , _______  , _______  , _______  , _______ , _______  ,       TO(0)    , _______  , _______  , _______  , _______ , _______
   ),
 };
 // clang-format on
 
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    rgblight_sethsv(HSV_OFF);
+    return state;
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Auto enable scroll mode when the highest layer is 3
-    //keyball_set_scroll_mode(get_highest_layer(state) == 3);
-	
-	#ifdef LAYER_LED_ENABLE
-	change_layer_led_color(state);
-	#endif
+	rgblight_set_layer_state(0, layer_state_cmp(state, 4));
+	rgblight_set_layer_state(1, layer_state_cmp(state, 5));
+    rgblight_set_layer_state(2, layer_state_cmp(state, 6));
     return state;
 }
 
@@ -107,5 +121,9 @@ void pointing_device_init_user(void) {
 	set_auto_mouse_layer(AUTO_MOUSE_DEFAULT_LAYER);
     set_auto_mouse_enable(true);
 	rgblight_sethsv(HSV_OFF);
+	
+	// Enable the LED layers
+    rgblight_layers = my_rgb_layers;
 }
 #endif
+
