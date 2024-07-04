@@ -20,23 +20,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quantum.h"
 
+const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    { 4, 10, HSV_GREEN},
+	{35,  9, HSV_GREEN}
+);
 const rgblight_segment_t PROGMEM my_layer4_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { 4, 10, HSV_MAGENTA},
-	{35,  9, HSV_MAGENTA}
-);
-const rgblight_segment_t PROGMEM my_layer5_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    { 4, 10, HSV_CYAN},
-	{35,  9, HSV_CYAN}
-);
-const rgblight_segment_t PROGMEM my_layer6_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     { 4, 10, HSV_WHITE},
 	{35,  9, HSV_WHITE}
 );
 // Now define the array of layers. Later layers take precedence
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_layer4_layer,    // Overrides caps lock layer
-    my_layer5_layer,    // Overrides caps lock layer
-    my_layer6_layer     // Overrides other layers
+    my_layer3_layer,    // Overrides caps lock layer
+    my_layer4_layer     // Overrides caps lock layer
 );
 
 // clang-format off
@@ -45,53 +40,39 @@ const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // keymap for default (VIA)
   [0] = LAYOUT_universal(
-    KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                            KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     ,
-    KC_A     , KC_S     , LT(3,KC_D),KC_F     , KC_G     ,                            KC_H     , KC_J     , KC_K     , KC_L     , LT(3,KC_ENT),
-    KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                            KC_N     , KC_M     , KC_COMM  , KC_DOT   , KC_BSPC  ,
-    KC_LALT  , KC_PSCR  , TG(4)    , KC_LGUI  , LCTL_T(KC_TAB),KC_LSFT,     LT(2,KC_ESC),LT(1,KC_SPC), _______ , _______ , _______ , TG(5)
+    KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                            KC_Y     , KC_U     , KC_I     , KC_O      , KC_P     ,
+    KC_A     , KC_S     , LT(3,KC_D),KC_F     , KC_G     ,                            KC_H     , KC_J     , KC_K     , LT(3,KC_L), RCTL_T(KC_ENT),
+    LALT_T(KC_Z),KC_X   , KC_C     , KC_V     , KC_B     ,                            KC_N     , KC_M     , KC_COMM  , KC_DOT    , KC_SLSH  ,
+    KC_PSCR  , KC_LSFT  , KC_LCTL  , LCTL_T(KC_ESC), LSFT_T(KC_GRV),KC_BSPC,LT(2,KC_TAB),LT(1,KC_SPC), _______ , _______ , _______ , KC_RWIN
   ),
 
   [1] = LAYOUT_universal(
     KC_1    , KC_2     , KC_3    , KC_4     , KC_5     ,                              KC_6     , KC_7     , KC_8     , KC_9     , KC_0     ,
-    KC_EQL  , KC_LBRC  , KC_SLSH , KC_MINS  , KC_INT1  ,                              KC_SCLN  , KC_QUOT  , KC_RBRC  , KC_NUHS  , KC_INT3  ,
-    _______ , _______  , _______ , _______  , _______  ,                              _______  , _______  , _______  , _______  , KC_DEL   ,
-    _______ , _______  , _______ , _______  , KC_INT2  , KC_CAPS ,          _______ , _______  , _______  , _______  , _______  , _______
+    KC_EQL  , KC_LBRC  , KC_SLSH , KC_MINS  , KC_INT1  ,                              KC_INT3  , KC_QUOT  , KC_RBRC  , KC_NUHS  , KC_SCLN  ,
+    _______ , _______  , _______ , _______  , _______  ,                              _______  , _______  , _______  , _______  , _______  ,
+    _______ , _______  , _______ , _______  , _______  , KC_DEL ,           _______ , _______  , _______  , _______  , _______  , _______
   ),
 
   [2] = LAYOUT_universal(
     S(KC_1)  , S(KC_2)   , S(KC_3)   , S(KC_4)    , S(KC_5)   ,                       S(KC_6)   , S(KC_7)   , S(KC_8)   , S(KC_9)   , S(KC_0)   ,
-    S(KC_EQL), S(KC_LBRC), S(KC_SLSH), S(KC_MINS) , S(KC_INT1),                       S(KC_SCLN), S(KC_QUOT), S(KC_RBRC), S(KC_NUHS), S(KC_INT3),
-    KC_F1    , KC_F2     , KC_F3     , KC_F4      , KC_F5     ,                       KC_F6     , KC_F7     , KC_F8     , KC_F9     , KC_F10    ,
-    KC_F11   , KC_F12    , _______   , _______    , _______   , _______  ,  _______  , _______  , _______   , _______   , _______   , _______
+    S(KC_EQL), S(KC_LBRC), S(KC_SLSH), S(KC_MINS) , S(KC_INT1),                       S(KC_INT3), S(KC_QUOT), S(KC_RBRC), S(KC_NUHS), S(KC_SCLN),
+    _______  , _______   , _______   , _______    , _______   ,                       _______   , _______   , _______   , _______   , _______   ,
+    _______  , _______   , _______   , _______    , _______   , _______  ,  _______ , _______   , _______   , _______   , _______   , _______
   ),
 
   [3] = LAYOUT_universal(
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , _______  , KC_PGUP, KC_HOME , _______ ,
-    _______  , _______  , _______  , _______  , _______ ,                             KC_LEFT  , KC_DOWN  , KC_UP  , KC_RGHT , _______ ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , _______  , KC_PGDN, KC_END  , _______ ,
-    _______  , _______  , _______  , _______  , _______ , _______  ,        _______  , _______ , _______  , _______, _______ , _______
+    KC_F1    , KC_F2     , KC_F3     , KC_F4      , KC_F5     ,                       KC_F6    , KC_F7    , KC_F8   , KC_F9   , KC_F10  ,
+    KC_F11   , KC_F12    , _______   , _______    , _______   ,                       KC_LEFT  , KC_DOWN  , KC_UP   , KC_RGHT , _______ ,
+    KBC_SAVE , AML_TO    , RGB_TOG   , CPI_I100   , CPI_D100  ,                       _______  , KC_PGDN  , KC_PGUP , _______ , _______ ,
+    QK_BOOT  , QK_RBT    , _______   , _______    , _______   , _______  ,  _______ , _______  , _______  , _______ , _______ , _______
 
   ),
   
   [4] = LAYOUT_universal(
-    KBC_SAVE , CPI_I100 , CPI_D100 , CPI_I1K  , CPI_D1K ,                             SCRL_TO  , SCRL_MO  , SCRL_DVI , SCRL_DVD , AML_TO ,
-    AML_I50  , AML_D50  , _______  , _______  , _______  ,                            RGB_VAI  , RGB_TOG  , _______  , _______ , _______ ,
-    _______  , _______  , _______  , _______  , _______  ,                            RGB_VAD  , _______  , _______  , _______ , _______ ,
-    QK_BOOT  , QK_RBT   , TG(4)    , _______  , _______  , _______ ,       TO(0)    , _______  , _______  , _______  , _______ , _______
-  ),
-  
-  [5] = LAYOUT_universal(
     _______  , _______  , _______  , _______  , _______ ,                             _______  , _______  , _______  , _______ , _______ ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN1  , SCRL_MO  , KC_BTN2 , KC_ENT  ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN4  , KC_BTN3  , KC_BTN5 , KC_BSPC ,
-    _______  , _______  , _______  , _______  , _______ , _______  ,       TO(0)    , _______  , _______  , _______  , _______ , TG(5)
-  ),
-  
-  [6] = LAYOUT_universal(
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , _______  , _______  , _______ , _______ ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN1  , SCRL_MO  , KC_BTN2 , KC_ENT  ,
-    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN4  , KC_BTN3  , KC_BTN5 , KC_BSPC ,
-    _______  , _______  , _______  , _______  , _______ , _______  ,       TO(0)    , _______  , _______  , _______  , _______ , _______
+    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN1  , SCRL_MO  , KC_BTN2 , _______ ,
+    _______  , _______  , _______  , _______  , _______ ,                             _______  , KC_BTN4  , KC_BTN3  , KC_BTN5 , _______ ,
+    _______  , _______  , _______  , TO(0)    , _______ , _______  ,        _______ , _______  , _______  , _______  , _______ , _______
   ),
 };
 // clang-format on
@@ -102,9 +83,8 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-	rgblight_set_layer_state(0, layer_state_cmp(state, 4));
-	rgblight_set_layer_state(1, layer_state_cmp(state, 5));
-    rgblight_set_layer_state(2, layer_state_cmp(state, 6));
+	rgblight_set_layer_state(0, layer_state_cmp(state, 3));
+    rgblight_set_layer_state(1, layer_state_cmp(state, 4));
     return state;
 }
 
